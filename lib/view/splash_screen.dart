@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
               top: size.height * .15,
               width: size.width * .5,
               right: size.width * .25,
-              child: const Icon(Icons.message)),
+              child: Image.asset("assets/images/icon.png")),
           Positioned(
               bottom: size.height * .15,
               width: size.width,

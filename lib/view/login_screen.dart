@@ -87,26 +87,36 @@ class _LoginScreenState extends State<LoginScreen> {
             top: size.height * .15,
               width: size.width * .5,
               right: isAnimate?size.width * .25:-size.width * .5,
-              child: const Icon(Icons.message)),
+              child: Image.asset("assets/images/icon.png")),
           Positioned(
               bottom: size.height * .15,
               width: size.width * .9,
               left: size.width * .05,
               height: size.height * .06,
-              child: ElevatedButton(
+              child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green,shape: const StadiumBorder(),elevation: 1),
                 onPressed: (){
                   handleSignIn();
                 },
-                child: RichText(
+                icon:Image.asset('assets/images/google.png', height: size.height * .03),
+                label: RichText(
                   text: const TextSpan(
-                    style: TextStyle(color: Colors.black,fontSize: 16.0),
-                    children: [
-                      TextSpan(text: "Login with ",),
-                      TextSpan(text: "Google",style: TextStyle(fontWeight: FontWeight.w500))
-                    ]
+                      style: TextStyle(color: Colors.black,fontSize: 16.0),
+                      children: [
+                        TextSpan(text: "Login with ",),
+                        TextSpan(text: "Google",style: TextStyle(fontWeight: FontWeight.w500))
+                      ]
                   ),
                 ),
+                // child: RichText(
+                //   text: const TextSpan(
+                //     style: TextStyle(color: Colors.black,fontSize: 16.0),
+                //     children: [
+                //       TextSpan(text: "Login with ",),
+                //       TextSpan(text: "Google",style: TextStyle(fontWeight: FontWeight.w500))
+                //     ]
+                //   ),
+                // ),
               )),
         ],
       ),

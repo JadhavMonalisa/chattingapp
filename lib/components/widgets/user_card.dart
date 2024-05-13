@@ -3,6 +3,7 @@ import 'package:chattingapp/models/user_model.dart';
 import 'package:chattingapp/services/api.dart';
 import 'package:chattingapp/utils/utils.dart';
 import 'package:chattingapp/view/chat_screen.dart';
+import 'package:chattingapp/view/view_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class UserCard extends StatefulWidget {
@@ -44,7 +45,11 @@ class _UserCardState extends State<UserCard> {
               //   placeholder: (context, url) => const CircularProgressIndicator(),
               //   errorWidget: (context, url, error) => const CircleAvatar(child: Icon(Icons.person),),
               // ),
-              leading: Image.network(widget.userData.image),
+              leading: InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewProfileScreen(user:widget.userData)));
+                  },
+                  child: Image.network(widget.userData.image)),
               title: Text(widget.userData.name),
               subtitle: Text(message!=null?
               message!.type==Type.image?'image':
