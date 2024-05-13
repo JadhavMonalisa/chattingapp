@@ -1,8 +1,11 @@
-import 'package:chattingapp/main.dart';
+import 'dart:developer';
+import 'dart:io';
+import 'package:chattingapp/components/widgets/custom_dialogs.dart';
+import 'package:chattingapp/services/api.dart';
 import 'package:chattingapp/view/home_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,9 +27,55 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  handleSignIn(){
+    //show progress bar
+    Dialogs.showProgressBar(context);
+    signInWithGoogle().then((user) async {
+     //hide progress bar
+      Navigator.pop(context);
+      if (user != null) {
+        if(await API.userExists()){
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+
+        }
+        else{
+          await API.createUser().then((value) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+
+          });
+        }
+       }
+    });
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+  try{
+    await InternetAddress.lookup('google.com');
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+
+  }
+      catch(e){log(e.toString());}
+        Dialogs.showSnackbar(context, "Please check internet");
+    }
+
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -47,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green,shape: const StadiumBorder(),elevation: 1),
                 onPressed: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                  handleSignIn();
                 },
                 child: RichText(
                   text: const TextSpan(
