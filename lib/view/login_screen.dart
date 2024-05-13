@@ -94,14 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
               left: size.width * .05,
               height: size.height * .06,
               child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green,shape: const StadiumBorder(),elevation: 1),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,shape: const StadiumBorder(),elevation: 1),
                 onPressed: (){
                   handleSignIn();
                 },
                 icon:Image.asset('assets/images/google.png', height: size.height * .03),
                 label: RichText(
                   text: const TextSpan(
-                      style: TextStyle(color: Colors.black,fontSize: 16.0),
+                      style: TextStyle(color: Colors.white,fontSize: 16.0),
                       children: [
                         TextSpan(text: "Login with ",),
                         TextSpan(text: "Google",style: TextStyle(fontWeight: FontWeight.w500))
